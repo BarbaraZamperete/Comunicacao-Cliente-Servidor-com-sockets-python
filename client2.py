@@ -9,14 +9,14 @@ c = socket(AF_INET, SOCK_STREAM)
 
 c.connect((SERVER, PORT))
 
-print("Qual mensagem deseja enviar?")
+# print("Qual mensagem deseja enviar?")
 # dataClient = input()
 
 dataClient = "Hello World!!!"
 c.sendall(bytes(dataClient, 'UTF-8'))
 while True:
     
-    serverData = c.recv(1024)
+    serverData = c.recv(2048)
     print("Resposta do Servidor:", serverData.decode())
     # dataClient = input()
     c.sendall(bytes(dataClient, 'UTF-8'))
