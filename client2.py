@@ -1,6 +1,7 @@
 #######################Client.py###########################
 
 from socket import *
+from threading import Thread
 
 SERVER = "127.0.0.1"
 PORT = 8000

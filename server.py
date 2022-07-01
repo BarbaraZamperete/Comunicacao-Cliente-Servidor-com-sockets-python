@@ -34,7 +34,12 @@ print("Server Iniciado")
 print("Waiting for client request..")
 while True:
     s.listen()
-    clientsock, clientAddress = s.accept()
-    #iniciando uma thread com esse client
-    newthread = ClientThread(clientAddress, clientsock) 
-    newthread.start()
+    try:
+        clientsock, clientAddress = s.accept()
+        #iniciando uma thread com esse client
+        newthread = ClientThread(clientAddress, clientsock) 
+        newthread.start()
+    except (error):
+        print(error.errno)
+        s.close()
+        break
