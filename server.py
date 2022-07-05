@@ -8,7 +8,7 @@ from threading import *
 
 LOCALHOST = "127.0.0.1"
 PORT = 8000
-PACKET = 5
+PACKET = 1024
 
 class ClientThread(Thread):
     #Essa classe herda da classe Thread

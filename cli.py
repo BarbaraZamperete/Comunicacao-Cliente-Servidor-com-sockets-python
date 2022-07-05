@@ -6,7 +6,7 @@ import threading
 
 SERVER = "127.0.0.1"
 PORT = 8000
-PACKET = 5
+PACKET = 1024
 
 num = 0
 
