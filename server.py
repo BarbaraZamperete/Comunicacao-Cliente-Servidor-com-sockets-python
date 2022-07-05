@@ -4,6 +4,12 @@
 from socket import *
 from threading import *
 
+
+
+LOCALHOST = "127.0.0.1"
+PORT = 8000
+PACKET = 5
+
 class ClientThread(Thread):
     #Essa classe herda da classe Thread
     def __init__(self, clientAddress, clientsocket):
@@ -14,32 +20,25 @@ class ClientThread(Thread):
 
     def run(self):
         while True:
-            data = self.csocket.recv(2048)
+            data = self.csocket.recv(PACKET)
             dataFromClient = data.decode()
-            if dataFromClient == 'bye':
-                break
-            print("Recebido do cliente %s: %s" % (self.clientAddress, dataFromClient))
+            # print("Recebido do cliente %s: %s" % (self.clientAddress, dataFromClient))
             # Inverte a String
             resposta = dataFromClient[::-1]
             self.csocket.send(bytes(resposta, 'UTF-8'))
-        print("Client at ", clientAddress, " disconnected...")
 
 
-LOCALHOST = "127.0.0.1"
-PORT = 8000
 s = socket(AF_INET, SOCK_STREAM)
 s.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1)
 s.bind((LOCALHOST, PORT))
 print("Server Iniciado")
 print("Waiting for client request..")
+s.listen()
+clientes = 0
 while True:
-    s.listen()
-    try:
-        clientsock, clientAddress = s.accept()
-        #iniciando uma thread com esse client
-        newthread = ClientThread(clientAddress, clientsock) 
-        newthread.start()
-    except (error):
-        print(error.errno)
-        s.close()
-        break
+    clientsock, clientAddress = s.accept()
+    #iniciando uma thread com esse client
+    newthread = ClientThread(clientAddress, clientsock) 
+    clientes += 1
+    print("Cliente: ", clientes)
+    newthread.start()

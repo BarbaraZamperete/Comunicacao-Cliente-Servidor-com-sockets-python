@@ -6,7 +6,7 @@ import threading
 
 SERVER = "127.0.0.1"
 PORT = 8000
-PACKET_SIZE = 1024
+PACKET = 5
 
 num = 0
 
@@ -15,17 +15,17 @@ def message():
         try:
             s = socket(AF_INET, SOCK_STREAM)
             s.connect((SERVER, PORT))
-            # dataClient = "Hello World!!!"
-            # s.sendall(bytes(dataClient, 'UTF-8'))
-            s.send("\x00")
+            dataClient = "Hello World!!!"
+            s.sendall(bytes(dataClient, 'UTF-8'))
+            resposta = s.recv(PACKET)
             global num
             num += 1
-            print(num)
+            print("%d -> Resposta: %s" % (num, resposta.decode()))
         except error:
             print(error.errno)
+            break
         s.close()
 
-for i in range(500):
+for i in range(100):
     thread = threading.Thread(target=message)
-    print("############ %d #########" % i)
     thread.start()
